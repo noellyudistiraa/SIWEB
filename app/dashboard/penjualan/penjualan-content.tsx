@@ -13,53 +13,49 @@ const mockPenjualan = [
   { id: 5, tanggal: '2024-03-19', harga: 400000, nama_pembeli: 'Rina', produk_dibeli: 'Harley Quinn  ' }, 
 ];  
 
-function fetchPenjualanData(query: string = '', page: number = 1) {  
-  const itemsPerPage = 5;  
-
-  // Filter berdasarkan query  
-  let filtered = query   
-    ? mockPenjualan.filter((item) =>   
-        item.nama_pembeli.toLowerCase().includes(query.toLowerCase())  
-      )   
-    : mockPenjualan;  
-
-  // Pagination  
-  const start = (page - 1) * itemsPerPage;  
-  const end = start + itemsPerPage;  
-  const penjualan = filtered.slice(start, end);  
-
-  return {  
-    penjualan,  
-    totalPages: Math.ceil(filtered.length / itemsPerPage)  
-  };  
-}  
-
 export default function PenjualanPageContent() {  
   const [currentPage, setCurrentPage] = useState(1);  
   const [searchQuery, setSearchQuery] = useState('');  
   const [penjualanList, setPenjualanList] = useState(mockPenjualan);  
 
-  const { penjualan, totalPages } = fetchPenjualanData(searchQuery, currentPage);  
+  const itemsPerPage = 5;  
 
-  const handleSearch = (query: string) => {  
-    setSearchQuery(query);  
-    setCurrentPage(1);  
-  };  
+  // Filter penjualan berdasarkan query  
+  const filteredPenjualan = searchQuery   
+    ? penjualanList.filter((item) =>   
+        item.nama_pembeli.toLowerCase().includes(searchQuery.toLowerCase())  
+      )  
+    : penjualanList;  
+
+  // Pagination  
+  const totalPages = Math.ceil(filteredPenjualan.length / itemsPerPage);  
+  const startIndex = (currentPage - 1) * itemsPerPage;  
+  const endIndex = startIndex + itemsPerPage;  
+  const penjualan = filteredPenjualan.slice(startIndex, endIndex);  
+ 
 
   const handleDelete = (id: number) => {  
     const confirmDelete = window.confirm('Apakah Anda yakin ingin menghapus data penjualan ini?');  
     if (confirmDelete) {  
       const updatedPenjualan = penjualanList.filter(item => item.id !== id);  
       setPenjualanList(updatedPenjualan);  
+      
+      // Adjust current page if needed  
+      if (updatedPenjualan.length <= (currentPage - 1) * itemsPerPage) {  
+        setCurrentPage(Math.max(1, currentPage - 1));  
+      }  
     }  
   };  
 
   return (  
-    <PenjualanTable   
-      penjualan={penjualan}  
-      totalPages={totalPages}  
-      currentPage={currentPage}  
-      onDelete={handleDelete}  
-    />  
+    <div>  
+      <PenjualanTable   
+        penjualan={penjualan}  
+        totalPages={totalPages}  
+        currentPage={currentPage}  
+        onDelete={handleDelete}  
+      />  
+    
+    </div>  
   );  
-}
+}  
