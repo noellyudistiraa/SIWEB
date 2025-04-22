@@ -42,21 +42,27 @@ export const mockKatalog = [
   },
   {
     id: 5,
-    name: 'Ghostface',
-    price: 300000,
-    image: '/ s/ghostface.jpg',
+    name: 'Walter White',
+    price: 380000,
+    image: '/walter white.png',
   },
   {
     id: 6,
-    name: 'Chucky',
-    price: 350000,
-    image: '/ s/chucky.jpg',
+    name: 'Terrifier',
+    price: 500000,
+    image: '/terrifier.png',
   },
   {
     id: 7,
-    name: 'Freddy Krueger',
-    price: 450000,
-    image: '/ s/freddy.jpg',
+    name: 'Harley Quin - Women Jumpsuit',
+    price: 400000,
+    image: '/harley quin 22.png',
+  },
+  {
+    id: 8,
+    name: 'Harley Quin',
+    price: 400000,
+    image: '/harley quin 1.png',
   },
 ];
 
