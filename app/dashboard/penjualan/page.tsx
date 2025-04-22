@@ -1,31 +1,52 @@
-import React from 'react';  
-import { MagnifyingGlassIcon, PlusIcon } from '@heroicons/react/24/outline';  
+import React from 'react';
+import Search from '@/app/ui/penjualan/search';
+import PenjualanTable from '@/app/ui/penjualan/penjualan-table';
+import { shadowsIntoLightTwo } from '@/app/ui/fonts';
+import { fetchPenjualan } from '@/app/lib/query/route';
 
-export default function PenjualanPage() {  
-  return (  
-    <div className="bg-[#000000] min-h-screen p-6 text-white">  
-      <h1 className="text-3xl font-poppins font-bold mb-6">Penjualan</h1>  
-      
-      {/* Header */}  
-      <div className="flex justify-between mb-6">  
-        {/* Search Bar */}  
-        <div className="relative flex-grow mr-4">  
-          <input   
-            type="text"   
-            placeholder="Cari User Disini...."   
-            className="w-full p-2 pl-10 bg-[#0f3460] text-white rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"  
-          />  
-          <MagnifyingGlassIcon className="absolute left-3 top-3 h-5 w-5 text-gray-400" />  
-        </div>  
-        
-        {/* Tambah Penjualan Button */}  
-        <button className="flex items-center bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">  
-          <PlusIcon className="h-5 w-5 mr-2" />  
-          Tambah Penjualan  
-        </button>  
-      </div>  
-      
-      {/* ... sisanya sama seperti sebelumnya */}  
-    </div>  
-  );  
-}  
+export default async function PenjualanPage({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}) {
+  const query = searchParams?.query || '';
+  const currentPage = Number(searchParams?.page) || 1;
+
+  const { penjualan, totalPages } = await fetchPenjualan(query, currentPage);
+
+  return (
+    <div className="bg-[#00000] min-h-screen p-6 text-white">
+      <div className="flex flex-col space-y-4 mb-6">
+        <div className="self-end">
+          <button
+            className={`
+              bg-transparent
+              text-white
+              hover:bg-white/10
+              py-2
+              px-4
+              rounded
+              border
+              border-white
+              ${shadowsIntoLightTwo.className}
+            `}
+          >
+            Profile
+          </button>
+        </div>
+
+        <div className={`w-full flex justify-end items-center gap-4 mb-4 ${shadowsIntoLightTwo.className}`}>
+          <Search placeholder="Cari User Disini..." />
+          <button className={`bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-md font-semibold text-black ${shadowsIntoLightTwo.className}`}>
+            Tambah Penjualan
+          </button>
+        </div>
+      </div>
+
+      <PenjualanTable penjualan={penjualan} totalPages={totalPages} currentPage={currentPage} />
+    </div>
+  );
+}
