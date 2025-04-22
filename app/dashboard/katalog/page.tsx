@@ -1,6 +1,5 @@
 // app/dashboard/katalog/page.tsx
 import React from 'react';
-import Image from 'next/image';
 import { poppins } from '@/app/ui/fonts';
 import Search from '@/app/ui/katalog/search';   
 import KatalogTable from '@/app/ui/katalog/katalog-table';
