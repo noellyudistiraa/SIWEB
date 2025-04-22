@@ -4,8 +4,16 @@ import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { newRocker } from '../fonts';
 
-export default function Pagination({ totalPages }: { totalPages: number }) {
+export default function 
+Pagination({
+  totalPages,
+  hideArrows = false, // default: tampilkan arrows
+}: {
+  totalPages: number;
+  hideArrows?: boolean;
+}) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
@@ -19,12 +27,13 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
   return (
     <div className="flex justify-center items-center space-x-1">
       {/* Previous page */}
-      <PaginationArrow
-        direction="left"
-        href={createPageURL(currentPage - 1)}
-        isDisabled={currentPage <= 1}
-      />
-
+      {!hideArrows && (
+        <PaginationArrow
+          direction="left"
+          href={createPageURL(currentPage - 1)}
+          isDisabled={currentPage <= 1}
+        />
+      )}
       {/* Page numbers */}
       {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => {
         // Display current page, first, last, and pages around current
@@ -56,12 +65,13 @@ export default function Pagination({ totalPages }: { totalPages: number }) {
         return null;
       })}
 
-      {/* Next page */}
-      <PaginationArrow
-        direction="right"
-        href={createPageURL(currentPage + 1)}
-        isDisabled={currentPage >= totalPages}
-      />
+      {!hideArrows && (
+        <PaginationArrow
+          direction="right"
+          href={createPageURL(currentPage + 1)}
+          isDisabled={currentPage >= totalPages}
+        />
+      )}
     </div>
   );
 }
@@ -71,6 +81,7 @@ function PaginationNumber({ page, href, isActive }: { page: number, href: string
     <Link
       href={href}
       className={clsx(
+        `${newRocker.className}`, 
         'px-3 py-1 border border-gray-300',
         {
           'bg-black text-white': isActive,
