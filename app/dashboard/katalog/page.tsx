@@ -7,16 +7,14 @@ import { shadowsIntoLightTwo } from '@/app/ui/fonts';
 import Link from 'next/link';
 import { fetchKatalog } from '@/app/lib/query/route'; // <- Import fetchKatalog
 
-export default async function KatalogPage({ 
+export default async function KatalogPage({
   searchParams,
 }: {
-  searchParams?: {
-    query?: string;
-    page?: string;
-  };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const query = searchParams?.query || '';
-  const currentPage = Number(searchParams?.page) || 1;
+
+  const query = typeof searchParams?.query === 'string' ? searchParams.query : '';
+  const currentPage = typeof searchParams?.page === 'string' ? Number(searchParams.page) : 1;
 
   const { katalog, totalPages } = await fetchKatalog(query, currentPage); // Ambil data katalog
 
