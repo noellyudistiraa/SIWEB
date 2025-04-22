@@ -1,3 +1,4 @@
+// app/dashboard/katalog/page.tsx
 import React from 'react';
 import { poppins } from '@/app/ui/fonts';
 import Search from '@/app/ui/katalog/search';   
@@ -6,20 +7,10 @@ import { shadowsIntoLightTwo } from '@/app/ui/fonts';
 import Link from 'next/link';
 import { fetchKatalog } from '@/app/lib/query/route';
 
-
-interface SearchParams {
-  query?: string;
-  page?: string;
-}
-
-export default async function KatalogPage({
-  searchParams = {},
-}: {
-  searchParams?: SearchParams;
-}) {
-  const query = searchParams.query || '';
-  const currentPage = Number(searchParams.page) || 1;
-  const { katalog, totalPages } = await fetchKatalog(query, currentPage);
+export default async function KatalogPage() {
+  // Mengambil data tanpa parameter query dan halaman
+  // Gunakan nilai default langsung
+  const { katalog, totalPages } = await fetchKatalog('', 1);
 
   return (
     <div className={`${poppins.className} p-6 bg-black min-h-screen`}>
@@ -39,7 +30,7 @@ export default async function KatalogPage({
         </Link>  
       </div>  
       
-      <KatalogTable products={katalog} totalPages={totalPages} currentPage={currentPage} />
+      <KatalogTable products={katalog} totalPages={totalPages} currentPage={1} />
     </div>
   );
 }
