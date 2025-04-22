@@ -3,6 +3,7 @@
 import { MagnifyingGlassIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
+import { shadowsIntoLightTwo } from '../fonts';
 
 export default function Search({ placeholder }: { placeholder: string }) {
   const searchParams = useSearchParams();
@@ -28,12 +29,12 @@ export default function Search({ placeholder }: { placeholder: string }) {
   };
 
   return (
-    <div className="relative flex flex-1 flex-shrink-0 max-w-md">
+<div className={`relative flex w-75 ${shadowsIntoLightTwo.className}`}>
       <label htmlFor="search" className="sr-only">
         Search
       </label>
       <input
-        className="w-full rounded-l-md border border-gray-200 py-2 pl-3 pr-8 text-sm outline-none"
+        className={` w-full rounded-l-md border border-gray-200 py-2 pl-3 pr-8 text-sm outline-none`}
         placeholder={placeholder}
         onChange={(e) => handleSearch(e.target.value)}
         defaultValue={searchParams.get('query')?.toString()}
