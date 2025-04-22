@@ -5,6 +5,7 @@ import PaginationWrapper from './pagination.wrapper';
 import { fetchPenjualan } from '@/app/lib/query/route'; 
 import { PencilSquareIcon, TrashIcon } from '@heroicons/react/24/outline'; 
 import { shadowsIntoLightTwo } from '../fonts';
+import Link from 'next/link';
 
 type Penjualan = {
   id: number;
@@ -48,10 +49,12 @@ export default function PenjualanTable({ penjualan, totalPages }: Props) {
               <td className={`px-6 py-4 whitespace-nowrap text-sm text-black ${shadowsIntoLightTwo.className}`}>{item.produk_dibeli}</td>
               <td className={`px-6 py-4 whitespace-nowrap text-sm text-black ${shadowsIntoLightTwo.className}`}>
                 <div className="flex space-x-2">
+                <Link href={`/dashboard/penjualan/edit?id=${item.id}`}>
                   <button className={`bg-orange-500 hover:bg-orange-600 text-white px-4 py-1 rounded flex items-center border border-black ${shadowsIntoLightTwo.className}`}>
                     <PencilSquareIcon className="h-4 w-4 mr-1" />
                     Edit
                   </button>
+                  </Link>
                   <button className={`bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded flex items-center border border-black ${shadowsIntoLightTwo.className}`}>
                     <TrashIcon className="h-4 w-4 mr-1" />
                     Hapus
