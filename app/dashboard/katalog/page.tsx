@@ -1,9 +1,11 @@
-// app/katalog/page.tsx
+// app/dashboard/katalog/page.tsx
 import React from 'react';
+import Image from 'next/image';
 import { poppins } from '@/app/ui/fonts';
 import Search from '@/app/ui/katalog/search';   
 import KatalogTable from '@/app/ui/katalog/katalog-table';
 import { shadowsIntoLightTwo } from '@/app/ui/fonts';  
+import Link from 'next/link';
 import { fetchKatalog } from '@/app/lib/query/route'; // <- Import fetchKatalog
 
 export default async function KatalogPage({ 
@@ -28,11 +30,15 @@ export default async function KatalogPage({
       </div>
       
       <div className="flex justify-end items-center gap-4 mb-6">
-        <Search placeholder="Cari Disini" />
-        <button className={`bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded text-black border border-white ${shadowsIntoLightTwo.className}`}>
-          Tambah Kostum
-        </button>
-      </div>
+      <Search placeholder="Cari Disini" />  
+        {/* Ubah button Tambah Kostum menjadi Link */}  
+        <Link   
+          href="/dashboard/katalog/tambah"   
+          className={`bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded text-black border border-white ${shadowsIntoLightTwo.className}`}  
+        >  
+          Tambah Kostum  
+        </Link>  
+      </div>  
       
       <KatalogTable products={katalog} totalPages={totalPages}  currentPage={currentPage} />
     </div>
