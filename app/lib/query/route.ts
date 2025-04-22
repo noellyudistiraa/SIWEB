@@ -2,7 +2,7 @@
 import { unstable_noStore as noStore } from 'next/cache';  
 
 // Mock data penjualan sesuai contoh  
-const mockPenjualan = [
+let mockPenjualan = [
   { id: 1, tanggal: '2024-03-23', harga: 250000, nama_pembeli: 'Jajang', produk_dibeli: 'Casper  ' },
   { id: 2, tanggal: '2024-03-22', harga: 400000, nama_pembeli: 'Udin', produk_dibeli: 'Michael Myers  ' },
   { id: 3, tanggal: '2024-03-21', harga: 500000, nama_pembeli: 'Berren', produk_dibeli: 'Annabelle  ' },
@@ -100,4 +100,22 @@ export async function fetchKatalog(query: string, currentPage: number) {
     katalog,
     totalPages,
   };
+}
+
+export function getPenjualanById(id: number) {
+  return mockPenjualan.find((item) => item.id === id);
+}
+
+export function getKatalogById(id: number) {
+  return mockKatalog.find((item) => item.id === id);
+}
+
+export function addPenjualan(data: {
+  tanggal: string;
+  harga: number;
+  nama_pembeli: string;
+  produk_dibeli: string;
+}) {
+  const newId = mockPenjualan.length + 1;
+  mockPenjualan.push({ id: newId, ...data });
 }
