@@ -1,8 +1,11 @@
+//app/dashboard/penjualan/page.tsx
+
 import React from 'react';
 import Search from '@/app/ui/penjualan/search';
 import PenjualanTable from '@/app/ui/penjualan/penjualan-table';
 import { shadowsIntoLightTwo } from '@/app/ui/fonts';
 import { fetchPenjualan } from '@/app/lib/query/route';
+import Link from 'next/link';
 
 export default async function PenjualanPage({
   searchParams,
@@ -40,9 +43,12 @@ export default async function PenjualanPage({
 
         <div className={`w-full flex justify-end items-center gap-4 mb-4 ${shadowsIntoLightTwo.className}`}>
           <Search placeholder="Cari User Disini..." />
-          <button className={`bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-md font-semibold text-black ${shadowsIntoLightTwo.className}`}>
-            Tambah Penjualan
-          </button>
+          <Link href="/dashboard/penjualan/tambah">
+  <button className={`bg-gray-400 hover:bg-gray-500 px-4 py-2 rounded-md font-semibold text-black ${shadowsIntoLightTwo.className}`}>
+    Tambah Penjualan
+  </button>
+</Link>
+
         </div>
       </div>
 
