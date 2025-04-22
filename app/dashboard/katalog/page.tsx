@@ -1,22 +1,25 @@
-// app/dashboard/katalog/page.tsx
 import React from 'react';
 import { poppins } from '@/app/ui/fonts';
 import Search from '@/app/ui/katalog/search';   
 import KatalogTable from '@/app/ui/katalog/katalog-table';
 import { shadowsIntoLightTwo } from '@/app/ui/fonts';  
 import Link from 'next/link';
-import { fetchKatalog } from '@/app/lib/query/route'; // <- Import fetchKatalog
+import { fetchKatalog } from '@/app/lib/query/route';
+
+
+interface SearchParams {
+  query?: string;
+  page?: string;
+}
 
 export default async function KatalogPage({
-  searchParams,
+  searchParams = {},
 }: {
-  searchParams?: { [key: string]: string | string[] | undefined };
+  searchParams?: SearchParams;
 }) {
-
-  const query = typeof searchParams?.query === 'string' ? searchParams.query : '';
-  const currentPage = typeof searchParams?.page === 'string' ? Number(searchParams.page) : 1;
-
-  const { katalog, totalPages } = await fetchKatalog(query, currentPage); // Ambil data katalog
+  const query = searchParams.query || '';
+  const currentPage = Number(searchParams.page) || 1;
+  const { katalog, totalPages } = await fetchKatalog(query, currentPage);
 
   return (
     <div className={`${poppins.className} p-6 bg-black min-h-screen`}>
@@ -27,8 +30,7 @@ export default async function KatalogPage({
       </div>
       
       <div className="flex justify-end items-center gap-4 mb-6">
-      <Search placeholder="Cari Disini" />  
-        {/* Ubah button Tambah Kostum menjadi Link */}  
+        <Search placeholder="Cari Disini" />  
         <Link   
           href="/dashboard/katalog/tambah"   
           className={`bg-gray-300 hover:bg-gray-400 py-2 px-4 rounded text-black border border-white ${shadowsIntoLightTwo.className}`}  
@@ -37,7 +39,7 @@ export default async function KatalogPage({
         </Link>  
       </div>  
       
-      <KatalogTable products={katalog} totalPages={totalPages}  currentPage={currentPage} />
+      <KatalogTable products={katalog} totalPages={totalPages} currentPage={currentPage} />
     </div>
   );
 }
