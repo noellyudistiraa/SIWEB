@@ -3,9 +3,10 @@ import React from 'react';
 import Search from '@/app/ui/penjualan/search';  
 import PenjualanTable from '@/app/ui/penjualan/penjualan-table';  
 import { shadowsIntoLightTwo } from '@/app/ui/fonts';  
+import { fetchPenjualan } from '@/app/lib/query/data';  
 import Link from 'next/link';  
 
-// Data mock di dalam file yang sama  
+// Mock data penjualan  
 const mockPenjualan = [  
   { id: 1, tanggal: '2024-03-23', harga: 250000, nama_pembeli: 'Jajang', produk_dibeli: 'Casper  ' },  
   { id: 2, tanggal: '2024-03-22', harga: 400000, nama_pembeli: 'Udin', produk_dibeli: 'Michael Myers  ' },  
@@ -19,33 +20,34 @@ const mockPenjualan = [
   { id: 10, tanggal: '2024-03-14', harga: 390000, nama_pembeli: 'Yoga', produk_dibeli: 'Zombie Makeup Kit' }  
 ];  
 
-// Fungsi fetching penjualan  
-function fetchPenjualan(query: string, page: number) {  
+// Fungsi fetchPenjualan yang tidak bergantung pada searchParams  
+function fetchPenjualanData(query: string = '', page: number = 1) {  
   const itemsPerPage = 5;  
 
-  let filtered = mockPenjualan;  
-  if (query) {  
-    filtered = filtered.filter((item) =>  
-      item.nama_pembeli.toLowerCase().includes(query.toLowerCase())  
-    );  
-  }  
+  // Filter berdasarkan query  
+  let filtered = query   
+    ? mockPenjualan.filter((item) =>   
+        item.nama_pembeli.toLowerCase().includes(query.toLowerCase())  
+      )   
+    : mockPenjualan;  
 
+  // Pagination  
   const start = (page - 1) * itemsPerPage;  
   const end = start + itemsPerPage;  
-  const paginated = filtered.slice(start, end);  
+  const penjualan = filtered.slice(start, end);  
 
   return {  
-    penjualan: paginated,  
-    totalPages: Math.ceil(filtered.length / itemsPerPage),  
+    penjualan,  
+    totalPages: Math.ceil(filtered.length / itemsPerPage)  
   };  
 }  
 
 export default function PenjualanPage() {  
-  // Mendapatkan query dan halaman dari URL menggunakan Next.js 13 built-in  
-  const query = '';  // Default kosong  
-  const currentPage = 1;  // Default halaman pertama  
+  // Gunakan default values  
+  const query = '';  
+  const currentPage = 1;  
 
-  const { penjualan, totalPages } = fetchPenjualan(query, currentPage);  
+  const { penjualan, totalPages } = fetchPenjualanData(query, currentPage);  
 
   return (  
     <div className="bg-[#00000] min-h-screen p-6 text-white">  
