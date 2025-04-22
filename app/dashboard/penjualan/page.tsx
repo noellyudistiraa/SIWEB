@@ -4,7 +4,7 @@ import React from 'react';
 import Search from '@/app/ui/penjualan/search';  
 import PenjualanTable from '@/app/ui/penjualan/penjualan-table';  
 import { shadowsIntoLightTwo } from '@/app/ui/fonts';  
-import { fetchPenjualan } from '@/app/lib/query/route';  
+import { fetchPenjualan } from '@/app/lib/action';  
 import Link from 'next/link';  
 
 export default async function PenjualanPage() {  
