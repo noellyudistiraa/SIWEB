@@ -14,39 +14,40 @@ const LoginForm: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
     setIsLoading(true);
     
     try {
-      
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Kondisi 1: Admin
-      if (email === 'admin123@example.com' && password === '12345') {
-        console.log('Admin login successful');
-        router.push('/admin/dashboard');
-        return;
-      }
-      
-      // Kondisi 2: User
-      if (email === 'user123@example.com' && password === '12345') {
-        console.log('User login successful');
-        router.push('/register');
-        return;
-      }
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Kondisi 1: Admin
+        if (email === 'admin123@example.com' && password === '12345') {
+            console.log('Admin login successful');
+            document.cookie = "role=admin";
+            router.push('/dashboard');
+            return;
+        }
+        
+        // Kondisi 2: User
+        if (email === 'user123@example.com' && password === '12345') {
+            console.log('User  login successful');
+            document.cookie = "role=user"; 
+            router.push('/');
+            return;
+        }
 
-      setError('Username atau password tidak sesuai');
-      console.log('Login failed: Invalid credentials');
-      
+        setError('Username atau password tidak sesuai');
+        console.log('Login failed: Invalid credentials');
+        
     } catch (error) {
-      console.error('Login error:', error);
-      setError('Terjadi kesalahan saat login. Silakan coba lagi.');
+        console.error('Login error:', error);
+        setError('Terjadi kesalahan saat login. Silakan coba lagi.');
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
-  };
+};
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-black">
